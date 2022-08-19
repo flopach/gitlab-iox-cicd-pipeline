@@ -1,0 +1,30 @@
+{
+    "resources": {
+     "profile": "c1.small",
+     "network": [
+   {
+    "interface-name": "eth0",
+    "ipv4": {
+     "default": true,
+     "dns": "10.49.209.94",
+     "gateway": "172.19.88.1",
+     "ip": "172.19.88.30",
+     "mode": "static",
+     "prefix": "24"
+    },
+    "ipv6": {
+     "disabled": true
+    },
+    "mode": null,
+    "network-name": "int1",
+    "port_map": {},
+    "ports": {
+     "tcp": [
+      "8000"
+     ],
+     "udp": []
+    }
+   }
+  ]
+  }
+}

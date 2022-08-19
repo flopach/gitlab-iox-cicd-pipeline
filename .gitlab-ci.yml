@@ -1,0 +1,35 @@
+image: docker:20.10.16
+
+variables:
+  DOCKER_TLS_CERTDIR: "/certs"
+
+services:
+  - docker:20.10.16-dind
+
+before_script:
+  - cp .ioxclientcfg.yaml /root/.ioxclientcfg.yaml
+
+building-app:
+  stage: build
+  artifacts:
+    paths:
+      - package.tar
+  script:
+    - docker build -t nginx:latest .
+    - docker save nginx > rootfs.tar
+    - ./ioxclient package .
+
+testing-lab-device:
+  stage: test
+  script:
+    - echo "Testing on lab device"
+    - sleep 5
+
+deploy-to-device:
+  stage: deploy
+  script:
+    - ./ioxclient application stop nginx
+    - ./ioxclient application uninstall nginx
+    - ./ioxclient application install nginx package.tar
+    - ./ioxclient application activate nginx --payload activation.json
+    - ./ioxclient application start nginx
